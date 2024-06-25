@@ -6,8 +6,9 @@ function CustomUI:CreateWindow(nameOfWindow)
     local window = {}
     
     -- Create ScreenGui
-    local screenGui = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
+    local screenGui = Instance.new("ScreenGui", game.CoreGui
     screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    screenGui.ResetOnSpawn = false
     
     -- Create Main Frame
     local mainFrame = Instance.new("Frame", screenGui)
