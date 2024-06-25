@@ -141,4 +141,10 @@ function CustomUI:CreateWindow(nameOfWindow)
     return window
 end
 
+-- Allow the module to be loaded directly with loadstring
+function CustomUI:LoadFromGitHub()
+    local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/penotrat0r/ui-/main/ui"))()
+    return lib
+end
+
 return CustomUI
