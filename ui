@@ -15,20 +15,17 @@ function CustomUI:CreateWindow(nameOfWindow)
     mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
     mainFrame.Size = UDim2.new(0, 876, 0, 480)
-    mainFrame.Position = UDim2.new(0.54082, 0, 0.49986, 0)
+    mainFrame.Position = UDim2.new(0.5, 0, 0.5, 0) -- Centered
     mainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     mainFrame.BackgroundTransparency = 1
-    
-    -- Create UI Corner for Main Frame
-    local mainCorner = Instance.new("UICorner", mainFrame)
     
     -- Create Tabs Frame
     local tabsFrame = Instance.new("Frame", mainFrame)
     tabsFrame.BorderSizePixel = 4
     tabsFrame.BackgroundColor3 = Color3.fromRGB(231, 231, 231)
-    tabsFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    tabsFrame.AnchorPoint = Vector2.new(0, 0.5) -- Anchored to top-left of mainFrame
     tabsFrame.Size = UDim2.new(0, 300, 0, 481)
-    tabsFrame.Position = UDim2.new(0.17134, 0, 0.5, 0)
+    tabsFrame.Position = UDim2.new(0, 0, 0.5, 0) -- Align to the middle vertically
     tabsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
     tabsFrame.Name = "Tabs"
     tabsFrame.BackgroundTransparency = 0.5
@@ -73,6 +70,24 @@ function CustomUI:CreateWindow(nameOfWindow)
     function window:createTab(tabName)
         local tab = {}
         
+        -- Create Tab Content Frame
+        local tabContent = Instance.new("ScrollingFrame", mainFrame)
+        tabContent.Visible = false
+        tabContent.Active = true
+        tabContent.BorderSizePixel = 0
+        tabContent.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        tabContent.ScrollBarImageTransparency = 1
+        tabContent.Size = UDim2.new(0, 539, 0, 452)
+        tabContent.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+        tabContent.Position = UDim2.new(0.35, 0, 0.03534, 0) -- Adjust the x position to fit the right side
+        tabContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        tabContent.BackgroundTransparency = 1
+        tabContent.Name = tabName
+        
+        local tabContentLayout = Instance.new("UIListLayout", tabContent)
+        tabContentLayout.Padding = UDim.new(0, 13)
+        tabContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        
         -- Create Tab Button
         local tabButton = Instance.new("TextButton", tabList)
         tabButton.BorderSizePixel = 0
@@ -89,24 +104,7 @@ function CustomUI:CreateWindow(nameOfWindow)
         local tabCorner = Instance.new("UICorner", tabButton)
         tabCorner.CornerRadius = UDim.new(0, 5)
         
-        local tabContent = Instance.new("ScrollingFrame", mainFrame)
-        tabContent.Visible = false
-        tabContent.Active = true
-        tabContent.BorderSizePixel = 0
-        tabContent.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-        tabContent.ScrollBarImageTransparency = 1
-        tabContent.Size = UDim2.new(0, 539, 0, 452)
-        tabContent.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
-        tabContent.Position = UDim2.new(0.02993, 0, 0.03534, 0)
-        tabContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
-        tabContent.BackgroundTransparency = 1
-        tabContent.Name = tabName
-        
-        local tabContentLayout = Instance.new("UIListLayout", tabContent)
-        tabContentLayout.Padding = UDim.new(0, 13)
-        tabContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
-        
-        -- Show the tab when its button is clicked
+        -- Show the tab content when its button is clicked
         tabButton.MouseButton1Click:Connect(function()
             for _, sibling in pairs(mainFrame:GetChildren()) do
                 if sibling:IsA("ScrollingFrame") then
@@ -139,6 +137,12 @@ function CustomUI:CreateWindow(nameOfWindow)
     end
     
     return window
+end
+
+-- Allow the module to be loaded directly with loadstring
+function CustomUI:LoadFromGitHub()
+    local lib = loadstring(game:HttpGet("https://raw.githubusercontent.com/penotrat0r/ui-/main/ui"))()
+    return lib
 end
 
 return CustomUI
