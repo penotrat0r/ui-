@@ -1,0 +1,144 @@
+-- CustomUI.lua
+
+local CustomUI = {}
+
+function CustomUI:CreateWindow(nameOfWindow)
+    local window = {}
+    
+    -- Create ScreenGui
+    local screenGui = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"))
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    
+    -- Create Main Frame
+    local mainFrame = Instance.new("Frame", screenGui)
+    mainFrame.BorderSizePixel = 0
+    mainFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    mainFrame.Size = UDim2.new(0, 876, 0, 480)
+    mainFrame.Position = UDim2.new(0.54082, 0, 0.49986, 0)
+    mainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    mainFrame.BackgroundTransparency = 1
+    
+    -- Create UI Corner for Main Frame
+    local mainCorner = Instance.new("UICorner", mainFrame)
+    
+    -- Create Tabs Frame
+    local tabsFrame = Instance.new("Frame", mainFrame)
+    tabsFrame.BorderSizePixel = 4
+    tabsFrame.BackgroundColor3 = Color3.fromRGB(231, 231, 231)
+    tabsFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+    tabsFrame.Size = UDim2.new(0, 300, 0, 481)
+    tabsFrame.Position = UDim2.new(0.17134, 0, 0.5, 0)
+    tabsFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    tabsFrame.Name = "Tabs"
+    tabsFrame.BackgroundTransparency = 0.5
+    
+    -- Create UI Corner for Tabs Frame
+    local tabsCorner = Instance.new("UICorner", tabsFrame)
+    
+    -- Create Tab List
+    local tabList = Instance.new("ScrollingFrame", tabsFrame)
+    tabList.Active = true
+    tabList.BorderSizePixel = 0
+    tabList.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    tabList.ScrollBarImageTransparency = 1
+    tabList.Size = UDim2.new(0, 281, 0, 362)
+    tabList.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+    tabList.Position = UDim2.new(0.03333, 0, 0.22661, 0)
+    tabList.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    tabList.BackgroundTransparency = 1
+    
+    local tabLayout = Instance.new("UIListLayout", tabList)
+    tabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    tabLayout.Padding = UDim.new(0, 13)
+    tabLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    
+    -- Create Name Label
+    local nameLabel = Instance.new("TextLabel", tabsFrame)
+    nameLabel.BorderSizePixel = 0
+    nameLabel.BackgroundColor3 = Color3.fromRGB(231, 231, 231)
+    nameLabel.TextSize = 14
+    nameLabel.Font = Enum.Font.SourceSans
+    nameLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
+    nameLabel.Size = UDim2.new(0, 173, 0, 75)
+    nameLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    nameLabel.Name = "NameOfUI"
+    nameLabel.Position = UDim2.new(0.35333, 0, 0.03534, 0)
+    nameLabel.Text = nameOfWindow
+    
+    local nameCorner = Instance.new("UICorner", nameLabel)
+    nameCorner.CornerRadius = UDim.new(0, 7)
+    
+    -- Create Window Functions
+    function window:createTab(tabName)
+        local tab = {}
+        
+        -- Create Tab Button
+        local tabButton = Instance.new("TextButton", tabList)
+        tabButton.BorderSizePixel = 0
+        tabButton.TextXAlignment = Enum.TextXAlignment.Left
+        tabButton.TextSize = 15
+        tabButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+        tabButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        tabButton.Font = Enum.Font.SourceSans
+        tabButton.Size = UDim2.new(0, 257, 0, 27)
+        tabButton.BackgroundTransparency = 0.35
+        tabButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        tabButton.Text = "  " .. tabName
+        
+        local tabCorner = Instance.new("UICorner", tabButton)
+        tabCorner.CornerRadius = UDim.new(0, 5)
+        
+        local tabContent = Instance.new("ScrollingFrame", mainFrame)
+        tabContent.Visible = false
+        tabContent.Active = true
+        tabContent.BorderSizePixel = 0
+        tabContent.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        tabContent.ScrollBarImageTransparency = 1
+        tabContent.Size = UDim2.new(0, 539, 0, 452)
+        tabContent.ScrollBarImageColor3 = Color3.fromRGB(0, 0, 0)
+        tabContent.Position = UDim2.new(0.02993, 0, 0.03534, 0)
+        tabContent.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        tabContent.BackgroundTransparency = 1
+        tabContent.Name = tabName
+        
+        local tabContentLayout = Instance.new("UIListLayout", tabContent)
+        tabContentLayout.Padding = UDim.new(0, 13)
+        tabContentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        
+        -- Show the tab when its button is clicked
+        tabButton.MouseButton1Click:Connect(function()
+            for _, sibling in pairs(mainFrame:GetChildren()) do
+                if sibling:IsA("ScrollingFrame") then
+                    sibling.Visible = false
+                end
+            end
+            tabContent.Visible = true
+        end)
+        
+        function tab:createButton(buttonName, callback)
+            local button = Instance.new("TextButton", tabContent)
+            button.BorderSizePixel = 0
+            button.TextXAlignment = Enum.TextXAlignment.Left
+            button.TextSize = 15
+            button.TextColor3 = Color3.fromRGB(0, 0, 0)
+            button.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            button.Font = Enum.Font.SourceSans
+            button.Size = UDim2.new(0, 331, 0, 37)
+            button.BackgroundTransparency = 0.35
+            button.BorderColor3 = Color3.fromRGB(0, 0, 0)
+            button.Text = "  " .. buttonName
+            
+            local buttonCorner = Instance.new("UICorner", button)
+            buttonCorner.CornerRadius = UDim.new(0, 5)
+            
+            button.MouseButton1Click:Connect(callback)
+        end
+        
+        return tab
+    end
+    
+    return window
+end
+
+return CustomUI
